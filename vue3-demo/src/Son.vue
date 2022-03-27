@@ -1,33 +1,14 @@
-<template lang="">
-  <div>
-    <h2>子组件{{money}}<button @click="fn">消费20</button>
-    </h2>
-
-    <hr >
-    <GrandSon/>
+<template>
+  <div class="container2">
+    <h2> 作者：周杰伦  <button @click="followFn">{{loading?'loading...':'关注'}}</button> </h2>
   </div>
-  
 </template>
 <script>
-import { inject } from 'vue'
-import GrandSon from './GrandSon.vue'
+import {followMixin} from './mixins.js'
 export default {
-  name:"Son",
-  components:{
-    GrandSon
-  },
-  setup(){
-    // 接受祖先组件提供的数据
-  const money = inject('money')
-  const changeMoney = inject('changeMoney')
-  const fn = ()=>{
-    changeMoney(20)
-  }
+  name: 'son',
+  mixins:[followMixin]
   
-    return {money,changeMoney,fn}
-  }
 }
 </script>
-<style lang="">
-  
-</style>
+<style scoped lang="less"></style>

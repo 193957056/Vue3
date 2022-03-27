@@ -1,34 +1,18 @@
-<template lang="">
-  <div>
-     <h2>父组件{{money}} <button @click="money=1000">发钱</button>
-    </h2>
-    
-    <hr >
-    <Son />
+<template>
+  <div class="container1">
+    <h1> 作者：周杰伦  <a href="javascript:;" @click="followFn">{{loading?'正在请求。。。':'关注'}}</a> </h1>
+    <hr>
+    <son />
   </div>
 </template>
 <script>
-import { provide,ref } from "vue";
-import Son from "./Son.vue";
+import son from './son.vue'
+import {followMixin} from './mixins.js'
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    Son,
+    son
   },
-  setup() {
-    const money = ref(100)
-    const changeMoney = (saleMoney)=>{
-        console.log('changeMoney',saleMoney);
-        money.value = money.value - saleMoney
-    }
-    // 将数据提供给后代组件 provide
-    provide("money", money);
-    provide("changeMoney", changeMoney);
-
-
-    return { money,changeMoney };
-  },
-};
+  mixins:[followMixin]
+}
 </script>
-<style lang="">
-</style>
