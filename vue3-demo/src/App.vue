@@ -1,61 +1,34 @@
 <template lang="">
-    <div>
-        <div>坐标</div>
-        <div>x:{{x}}</div>
-        <div>y:{{y}}</div>
-        <hr>
-         <div>{{count}} <button @click="add">累加1</button></div>
-    </div>
+  <div>
+     <h2>父组件{{money}} <button @click="money=1000">发钱</button>
+    </h2>
+    
+    <hr >
+    <Son />
+  </div>
 </template>
 <script>
-import { reactive,onMounted,toRefs, onUnmounted,ref } from 'vue'
-const useMouse = ()=>{
-    // 1.记录鼠标坐标
-        // 1.1 申明一个响应式数据，他是一个对象，包含x y
-
-        const mouse = reactive({
-            x:0,
-            y:0
-        })
-        // 修改响应式数据
-        const move = (e)=>{
-            // console.log(e.pageX);
-            // console.log(e.pageY);
-            mouse.x = e.pageX
-            mouse.y = e.pageY
-        
-        
-    }
-    // 1.2 等dom渲染完毕 去监听事件
-    onMounted(() => {
-            document.addEventListener('mousemove',move)
-            
-        })
-        // 1.4 组建消耗，删除组件
-        onUnmounted(() => {
-            document.removeEventListener('mousemove',move)
-            
-        })
-        return mouse 
-}
+import { provide,ref } from "vue";
+import Son from "./Son.vue";
 export default {
-    name:'App',
-    setup() {
-        const mouse = useMouse()
-
-        // 2.数字累加
-        const count = ref(0)
-        const add = ()=>{
-            count.value ++
-        }
-
-
-
-
-        return {...toRefs(mouse),add,count}
+  name: "App",
+  components: {
+    Son,
+  },
+  setup() {
+    const money = ref(100)
+    const changeMoney = (saleMoney)=>{
+        console.log('changeMoney',saleMoney);
+        money.value = money.value - saleMoney
     }
-}
+    // 将数据提供给后代组件 provide
+    provide("money", money);
+    provide("changeMoney", changeMoney);
+
+
+    return { money,changeMoney };
+  },
+};
 </script>
 <style lang="">
-    
 </style>
